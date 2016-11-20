@@ -1,9 +1,56 @@
-void setup() {
-  // put your setup code here, to run once:
+typedef unsigned int position_t;
 
+position_t commandPosition(unsigned char id, unsigned int pos);
+
+position_t commandPositionFree(unsigned char id);
+
+#define SERVO_SERIAL Serial1
+
+#define CMDHEAD_POS     0x80
+#define CMDHEAD_READ    0xA0
+#define CMDHEAD_WRITE   0xC0
+#define CMDHEAD_ID      0xE0
+#define GenCmd(cmd_head, id) ((unsigned char)(cmd_head)|(0x1F&(unsigned char)(id)))
+
+// ID 0~31
+
+position_t commandPosition(unsigned char id, unsigned int pos) {
+    position_t res = 0;
+    {
+        char cmd = GenCmd(CMDHEAD_POS, id);
+        char pos_h = (pos & 0x3F80) >> 7;
+        char pos_l = (pos & 0x007F);
+        
+        SERVO_SERIAL.write(cmd);
+        while(!SERVO_SERIAL.available());SERVO_SERIAL.read();
+        SERVO_SERIAL.write(pos_h);
+        while(!SERVO_SERIAL.available());SERVO_SERIAL.read();
+        SERVO_SERIAL.write(pos_l);
+        while(!SERVO_SERIAL.available());SERVO_SERIAL.read();
+    }
+    {
+        char r_cmd, tch_h, tch_l;
+        while(!SERVO_SERIAL.available());r_cmd = SERVO_SERIAL.read();
+        while(!SERVO_SERIAL.available());tch_h = SERVO_SERIAL.read();
+        while(!SERVO_SERIAL.available());tch_l = SERVO_SERIAL.read();
+        res = (tch_h << 7) | tch_l;
+    }
+    return res;
+}
+
+position_t commandPositionFree(unsigned char id) {
+    return commandPosition(id, 0);
+}
+
+void setup() {
+    
+    Serial.begin(115200);
+    SERVO_SERIAL.begin(115200,SERIAL_8E1);
+    pinMode(13,OUTPUT);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+
+  Serial.println(commandPositionFree(1));
 
 }
