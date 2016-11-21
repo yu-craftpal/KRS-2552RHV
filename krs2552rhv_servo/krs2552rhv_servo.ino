@@ -46,11 +46,46 @@ void setup() {
     
     Serial.begin(115200);
     SERVO_SERIAL.begin(115200,SERIAL_8E1);
-    pinMode(13,OUTPUT);
+
 }
 
 void loop() {
+    commandPosition(1,5800);
+    commandPosition(2,5800);
+    delay(3000);
+    
+    #if 0
+    Serial.println("1:" + String(commandPosition(1,7000)));
+    Serial.println("2:" + String(commandPosition(2,7000)));
+    delay(1000);
+    Serial.println("3:" + String(commandPosition(1,8000)));
+    Serial.println("4:" + String(commandPosition(2,6000)));
+    delay(1000);
+    #else
+    commandPosition(1,11110);
+    delay(350);
+    commandPosition(2,11110);
+    delay(400);
+    commandPosition(2,5800);
+    delay(350);
+    commandPosition(1,5800);
+    delay(350);
+    commandPosition(1,9783);
+    commandPosition(2,9783);
+    delay(400);
+    commandPosition(1,5800);
+    commandPosition(2,5800);
+    delay(400);
+    commandPosition(1,9783);
+    commandPosition(2,9783);
+    delay(400);
+    commandPosition(1,5800);
+    commandPosition(2,5800);    
+    while(1){}
+    //Serial.print("1:" + String(commandPosition(1,11110)) + ", ");
+    //Serial.println("2:" + String(commandPosition(2,11110)));
+    //delay(100);
+    #endif
 
-  Serial.println(commandPositionFree(1));
-
+    
 }
