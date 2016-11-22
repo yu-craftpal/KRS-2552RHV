@@ -5,10 +5,10 @@ void IcsServo::init(){
 }
 
 // ID 0~31
-position_t IcsServo::commandPosition(unsigned char id, unsigned int pos) {
+position_t IcsServo::position(unsigned char id, unsigned int pos) {
     position_t res = 0;
     {
-        char cmd = GenCmd(CMDHEAD_POS, id);
+        char cmd = GenCmdHead(CMD_POS, id);
         char pos_h = (pos & 0x3F80) >> 7;
         char pos_l = (pos & 0x007F);
         
@@ -29,6 +29,6 @@ position_t IcsServo::commandPosition(unsigned char id, unsigned int pos) {
     return res;
 }
 
-position_t IcsServo::commandPositionFree(unsigned char id) {
-    return commandPosition(id, 0);
+position_t IcsServo::positionFree(unsigned char id) {
+    return position(id, 0);
 }

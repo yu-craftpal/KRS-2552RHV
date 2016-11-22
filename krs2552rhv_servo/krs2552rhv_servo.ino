@@ -10,7 +10,7 @@ void setup() {
 
 void loop() {
 
-  Serial.println(ics.commandPositionFree(1));
-  Serial.println(ics.commandPositionFree(2));
+  Serial.println(ics.positionFree(1));
+  Serial.println(ics.positionFree(2));
 
 }
