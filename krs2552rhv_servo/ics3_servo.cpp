@@ -58,11 +58,34 @@ position_t IcsServo::position(unsigned char id, unsigned int pos) {
     }
     return res;
 }
-
 position_t IcsServo::positionFree(unsigned char id) {
     return position(id, 0);
 }
 
+int IcsServo::getTmp(unsigned char id){
+    byte sd[2] = {GenCmdHead(CMD_READ, id), SC_TMP};
+    byte rev[3];
+    int tmp;
+    if (sendCommand(sd, 2, rev, 3) == 1){
+        tmp = rev[2];
+    }
+    else{
+        tmp = -1;
+    }
+    return tmp;
+}
+int IcsServo::setTmp(unsigned char id, unsigned char tmp){
+    byte sd[3] = {GenCmdHead(CMD_WRITE, id), SC_TMP, byte(tmp)};
+    byte rev[3];
+    int revtmp;
+    if (sendCommand(sd, 3, rev, 3) == 1){
+        revtmp = rev[2];
+    }
+    else{
+        revtmp = -1;
+    }
+    return revtmp;
+}
 int IcsServo::getID(){
     byte sd[4] = {0xFF, 0x00, 0x00, 0x00};
     byte rev[1];
@@ -75,4 +98,15 @@ int IcsServo::getID(){
     }
     return id;
 }
-
+int IcsServo::setID(unsigned char id){
+    byte sd[4] = {GenCmdHead(CMD_ID, id), 0x01, 0x01, 0x01};
+    byte rev[1];
+    int revid;
+    if (sendCommand(sd, 4, rev, 1) == 1){
+        revid = rev[0] & 0b00011111;
+    }
+    else{
+        revid = -1;
+    }
+    return revid;
+}

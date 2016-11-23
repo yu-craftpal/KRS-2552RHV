@@ -6,7 +6,7 @@ void setup() {
     
     Serial.begin(115200);
     ics.init();
-    Serial.println(ics.getID());
+    Serial.println(ics.getTmp(2));
 }
 
 void loop() {

@@ -31,7 +31,10 @@ public:
     int sendCommand(byte *senddata, int sendbyte, byte *revdata, int revbyte);
     position_t position(unsigned char id, unsigned int pos);
     position_t positionFree(unsigned char id);
+    int getTmp(unsigned char id);
+    int setTmp(unsigned char id, unsigned char tmp);
     int getID();
+    int setID(unsigned char id);
 
 };
 
