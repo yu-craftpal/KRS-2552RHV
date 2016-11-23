@@ -4,10 +4,11 @@ void IcsServo::init(){
     SERVO_SERIAL.begin(115200,SERIAL_8E1);
 }
 
-int IcsServo::sendCommand(char *senddata, int sendbyte, char *revdata, int revbyte){
+int IcsServo::sendCommand(byte *senddata, int sendbyte, byte *revdata, int revbyte){
     unsigned long timeout = 10;
     int s, r, time1;
     int flag = 0;
+    while(SERVO_SERIAL.available() > 0) SERVO_SERIAL.read();
     for (s = 0; s < sendbyte; s++){
         time1 = millis();
         SERVO_SERIAL.write(senddata[s]);
@@ -40,13 +41,13 @@ int IcsServo::sendCommand(char *senddata, int sendbyte, char *revdata, int revby
 // ID 0~31
 position_t IcsServo::position(unsigned char id, unsigned int pos) {
     position_t res = 0;
-    char cmd_h = GenCmdHead(CMD_POS, id);
-    char pos_h = (pos & 0x3F80) >> 7;
-    char pos_l = (pos & 0x007F);
-    char sd[3] = {cmd_h, pos_h, pos_l};
-    char rev[3];
+    byte cmd_h = GenCmdHead(CMD_POS, id);
+    byte pos_h = (pos & 0x3F80) >> 7;
+    byte pos_l = (pos & 0x007F);
+    byte sd[3] = {cmd_h, pos_h, pos_l};
+    byte rev[3];
     if (sendCommand(sd, 3, rev, 3) == 1){
-        char r_cmd, tch_h, tch_l;
+        byte r_cmd, tch_h, tch_l;
         r_cmd = rev[0]; 
         tch_h = rev[1];
         tch_l = rev[2];
@@ -61,3 +62,17 @@ position_t IcsServo::position(unsigned char id, unsigned int pos) {
 position_t IcsServo::positionFree(unsigned char id) {
     return position(id, 0);
 }
+
+int IcsServo::getID(){
+    byte sd[4] = {0xFF, 0x00, 0x00, 0x00};
+    byte rev[1];
+    int id;
+    if (sendCommand(sd, 4, rev, 1) == 1){
+        id = rev[0] & 0b00011111;
+    }
+    else{
+        id = -1;
+    }
+    return id;
+}
+
