@@ -1,4 +1,4 @@
-#include "ics3_servo.h"
+﻿#include "ics3_servo.h"
 
 IcsServo ics;
 
@@ -6,7 +6,7 @@ void setup() {
     
     Serial.begin(115200);
     ics.init();
-    Serial.println(ics.getTmp(2));
+    Serial.println(ics.getTemperature(1));
 }
 
 void loop() {
