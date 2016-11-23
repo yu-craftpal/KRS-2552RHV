@@ -22,12 +22,13 @@ typedef unsigned int position_t;
 
 class IcsServo {
 private:
-    
 
+    
 public:
 
     //IcsServo();
     void init();
+    int sendCommand(char *senddata, int sendbyte, char *revdata, int revbyte);
     position_t position(unsigned char id, unsigned int pos);
     position_t positionFree(unsigned char id);
 
