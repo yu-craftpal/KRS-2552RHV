@@ -28,7 +28,12 @@ public:
 	/// <summary>
 	/// シリアル通信の開始
 	/// </summary>
-	void init();
+	void begin();
+
+	/// <summary>
+	/// シリアル通信の終了
+	/// </summary>
+	void end();
 
 	/// <summary>
 	/// バイト数を指定してデータを送受信する

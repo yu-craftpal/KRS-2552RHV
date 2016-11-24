@@ -2,8 +2,13 @@
 
 /****************** 通信処理 ******************/
 ///シリアル通信の開始
-void IcsServo::init(){
+void IcsServo::begin(){
     SERVO_SERIAL.begin(115200,SERIAL_8E1);
+}
+
+///シリアル通信の終了
+void IcsServo::end() {
+	SERVO_SERIAL.end();
 }
 
 ///バイト数を指定してデータを送受信する

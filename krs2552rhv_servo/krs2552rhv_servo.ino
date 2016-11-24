@@ -5,13 +5,12 @@ IcsServo ics;
 void setup() {
     
     Serial.begin(115200);
-    ics.init();
-    Serial.println(ics.getTemperature(1));
+    ics.begin();
+
 }
 
 void loop() {
 
-  //Serial.println(ics.positionFree(1));
-  //Serial.println(ics.positionFree(2));
+	Serial.println(ics.positionFree(1));
 
 }
