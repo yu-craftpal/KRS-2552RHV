@@ -14,7 +14,8 @@ void IcsServo::end() {
 ///バイト数を指定してデータを送受信する
 int IcsServo::sendCommand(byte *senddata, int sendbyte, byte *revdata, int revbyte){
     unsigned long timeout = 10;
-    int s, r, time1;
+    unsigned long time1;
+    int s, r;
     int flag = 0;
 	//バッファクリア
     while(SERVO_SERIAL.available() > 0) SERVO_SERIAL.read();

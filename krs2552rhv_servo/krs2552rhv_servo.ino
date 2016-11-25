@@ -1,4 +1,4 @@
-﻿#include "ics3_servo.h"
+#include "ics3_servo.h"
 
 IcsServo ics;
 
